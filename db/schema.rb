@@ -10,7 +10,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_01_28_102706) do
+ActiveRecord::Schema.define(version: 2021_02_04_091542) do
+
+  create_table "tokens", force: :cascade do |t|
+    t.string "auth_token"
+    t.integer "user_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
 
   create_table "users", force: :cascade do |t|
     t.string "first_name"
@@ -26,6 +33,12 @@ ActiveRecord::Schema.define(version: 2021_01_28_102706) do
     t.string "county"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "auth_token"
+    t.string "user_types"
+    t.boolean "email_confirmed", default: false
+    t.string "confirm_token"
+    t.string "reset_password_token"
+    t.index ["auth_token"], name: "index_users_on_auth_token", unique: true
   end
 
 end
