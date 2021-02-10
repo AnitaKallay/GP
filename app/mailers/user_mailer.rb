@@ -6,7 +6,7 @@ class UserMailer < ApplicationMailer
     mail(to: @user.email, subject: 'Registration Confirmation')
   end
 
-  def forgot (user)
+  def forgot(user)
    @user = user
    @link = "http://localhost:3000/app/passwords/reset"
    mail(to: @user.email, subject: 'Reset password instructions')

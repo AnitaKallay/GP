@@ -1,12 +1,5 @@
 class Api::V1::PasswordsController < ApplicationController
-before_action :authenticate, only: [:update]
-   def update
-     if @current_user.update(password_params)
-       render json: {messages: "You change your password"}
-     else
-       render json: {error_message: "Password is not corect"}
-     end
-   end
+before_action :authenticate
 
    def forgot
       @user = User.find_by(email: params[:email])

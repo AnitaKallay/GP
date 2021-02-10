@@ -1,6 +1,5 @@
 class Api::V1::UsersController < ApplicationController
-skip_before_action :verify_authenticity_token
-before_action :authenticate, except: [:create, :confirm]
+before_action :authenticate, except: [:create, :confirm, :update]
 
   def create
    @user = User.new(user_params)
@@ -23,12 +22,16 @@ before_action :authenticate, except: [:create, :confirm]
 
   def login
    @user = User.find_by(email: params[:email])
-     if @user && @user.authenticate(params[:password])
-      @token = Token.create(user_id: @user.id)
-        render json: {token: @token, messages: "Successfully", user: @user}
-     else
+     if @user.authenticate(params[:password])
+       if @user.email_confirmed
+          @token = Token.create(user_id: @user.id)
+          render json: {token: @token, messages: "Successfully", user: @user}
+        else
+          render json: {messages: "Your email is not confirmed"}
+        end
+      else
         render json: {messages: "Your email or password is not correct"}
-     end
+      end
    end
 
    def logout
@@ -40,10 +43,11 @@ before_action :authenticate, except: [:create, :confirm]
    end
 
    def update
-      if @current_user.update(user_params)
+     @user = User.find_by(id: params[:id])
+      if @user.update(user_params)
          render json: { messages: "Your profile has been updated successfully" }
       else
-         render json: {message: "Your profile is not updeted"}
+         render json: {error_message: @user.errors.full_messages}
       end
    end
 
