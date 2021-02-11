@@ -1,0 +1,3 @@
+<h1>Welcome, <%= @user.first_name%> !</h1>
+<p>Thanks for registering! To confirm your registration click the URL below </p>
+<p><a href="http://localhost:3000/api/v1/users/confirm?token=<%=@user.confirm_token%>">Click here.</a></p>
