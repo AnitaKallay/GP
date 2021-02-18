@@ -18,4 +18,9 @@ module UserConcern
   def send_email
     UserMailer.registration_confirmation(self).deliver_now
   end
+  def present_column
+   if self.user_types == 'gp_trainee'
+   self.update_column(:gp_type,nil) && self.update_column(:practice_name,nil)
+   end
+  end
 end

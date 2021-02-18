@@ -12,6 +12,9 @@
 
 ActiveRecord::Schema.define(version: 2021_02_04_091542) do
 
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
   create_table "tokens", force: :cascade do |t|
     t.string "auth_token"
     t.integer "user_id"

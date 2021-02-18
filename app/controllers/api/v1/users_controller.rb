@@ -1,5 +1,10 @@
 class Api::V1::UsersController < ApplicationController
-before_action :authenticate, except: [:create, :confirm, :update]
+before_action :authenticate, except: [:create, :confirm, :update, :index]
+
+  def index
+    @users = UsersService.new(params).filter_proces
+    render json: {users: @users}
+  end
 
   def create
    @user = User.new(user_params)
@@ -48,6 +53,15 @@ before_action :authenticate, except: [:create, :confirm, :update]
          render json: { messages: "Your profile has been updated successfully" }
       else
          render json: {error_message: @user.errors.full_messages}
+      end
+   end
+
+   def destroy
+     @user = User.find_by(id: params[:id])
+      if @user.destroy
+        render json:{status: "User deleted"}
+      else
+        render json:{status: "User don't find"}
       end
    end
 
