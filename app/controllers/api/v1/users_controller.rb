@@ -1,9 +1,9 @@
 class Api::V1::UsersController < ApplicationController
-before_action :authenticate, except: [:create, :confirm, :update, :index]
+before_action :authenticate, except: [:create, :confirm, :update]
 
   def index
-    @users = UsersService.new(params).filter_proces
-    render json: {users: @users}
+    users = UsersService.new(params).filter_proces
+    render json: {users: users.map{|user| UserSerializer.new(user)} }
   end
 
   def create
@@ -48,11 +48,11 @@ before_action :authenticate, except: [:create, :confirm, :update, :index]
    end
 
    def update
-     @user = User.find_by(id: params[:id])
-      if @user.update(user_params)
-         render json: { messages: "Your profile has been updated successfully" }
+     user = User.find_by(id: params[:id])
+      if user.update(user_params)
+         render json: { user: UserSerializer.new(user) }
       else
-         render json: {error_message: @user.errors.full_messages}
+         render json: {error_message: user.errors.full_messages}
       end
    end
 
@@ -68,6 +68,6 @@ before_action :authenticate, except: [:create, :confirm, :update, :index]
   private
 
   def user_params
-    params.require(:user).permit(:first_name, :last_name, :email, :password,:password_confirmation, :avatar, :role, :IMC, :gp_type, :practice_name, :country, :county, :user_types)
+    params.require(:user).permit(:first_name, :last_name, :email, :password,:password_confirmation, :avatar, :role, :imc, :gp_type, :practice_name, :country, :county, :user_types)
   end
 end

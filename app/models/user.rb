@@ -9,6 +9,7 @@ include UserConcern
   has_secure_token :reset_password_token
   has_secure_token :confirm_token
   has_many :tokens
+  has_many :consultation
   mount_uploader :avatar, AvatarUploader
 
   validates :role, presence: true
@@ -17,7 +18,7 @@ include UserConcern
   validates :email,:presence => true, :uniqueness => true, format: { with: /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i, on: :create }
   validates :password, format: PASSWORD_REQUIREMENTS, allow_blank: true
   validates :password_confirmation, presence: true, allow_blank: true
-  validates :IMC, presence: true
+  validates :imc, presence: true
   validates :country, presence: true
   validates :user_types, presence: true
   validates :county,  presence: true, if: :ireland?

@@ -4,18 +4,11 @@ Rails.application.routes.draw do
       namespace 'v1' do
   put 'users/confirm' => 'users#confirm'
   resources :users
-  put 'update' => 'passwords#update'
-  post 'forgot' => 'passwords#forgot'
   get 'login'   => 'users#login'
   get 'logout' => 'users#logout'
-  post 'passwords/forgot', to: 'passwords#forgot'
+  post 'forgot' => 'passwords#forgot'
   post 'passwords/reset', to: 'passwords#reset'
-  get 'passwords/reset', to: 'passwords#reset'
-  put 'passwords/reset', to: 'passwords#reset'
-    end
+  resources :consultation
   end
-
-
-
-
+ end
 end
