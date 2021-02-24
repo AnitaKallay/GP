@@ -2,8 +2,8 @@ class Api::V1::UsersController < ApplicationController
 before_action :authenticate, except: [:create, :confirm, :update]
 
   def index
-    users = UsersService.new(params).filter_proces
-    render json: {users: users.map{|user| UserSerializer.new(user)} }
+   users = User.all
+     render json: {users: users.map{|user| UserListSerializer.new(user)}}
   end
 
   def create

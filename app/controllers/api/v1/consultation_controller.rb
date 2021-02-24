@@ -1,6 +1,11 @@
 class Api::V1::ConsultationController < ApplicationController
 before_action :authenticate
-before_action :set_consultation, except: [:create]
+before_action :set_consultation, except: [:create, :index]
+
+  def index
+    consultations = Consultation.all
+    render json: {consultations: consultations.map{|consultation| ConsultationSerializer.new(consultation)}}
+  end
 
   def create
    @consultation = Consultation.new(cons_params)
@@ -14,12 +19,18 @@ before_action :set_consultation, except: [:create]
   def update
    authorize @consultation
      if @consultation.update(cons_update_params)
-        render json: { messages: "Page has been updated successfully" }
+        render json: { consultation: ConsultationSerializer.new(@consultation) }
      else
         render json: {error_message: @consultation.errors.full_messages}
      end
   end
 
+  def destroy
+   authorize @consultation
+    if @consultation.destroy
+      render json: {message: "Consultation is deleted"}
+    end
+  end
 
   private
 
