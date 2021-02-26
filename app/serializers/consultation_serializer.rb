@@ -13,6 +13,6 @@ class ConsultationSerializer < ActiveModel::Serializer
              :updated_at,
              :owner
   def owner
-   "#{object.user.first_name}#{object.user.last_name}"
+   "#{object.user.first_name} #{object.user.last_name}"
   end
 end
