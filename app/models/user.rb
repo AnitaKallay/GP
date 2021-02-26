@@ -1,6 +1,7 @@
 class User < ApplicationRecord
 include UserConcern
   extend Enumerize
+  after_update:present_column
   after_create:send_email
   after_initialize :set_defaults
   has_secure_password
@@ -8,15 +9,16 @@ include UserConcern
   has_secure_token :reset_password_token
   has_secure_token :confirm_token
   has_many :tokens
+  has_many :consultations
   mount_uploader :avatar, AvatarUploader
 
   validates :role, presence: true
   validates :first_name, presence: true, length: { maximum: 20 }
   validates :last_name, presence: true, length: { maximum: 20 }
-  validates :email, format: { with: /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i, on: :create }
+  validates :email,:presence => true, :uniqueness => true, format: { with: /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i, on: :create }
   validates :password, format: PASSWORD_REQUIREMENTS, allow_blank: true
   validates :password_confirmation, presence: true, allow_blank: true
-  validates :IMC, presence: true
+  validates :imc, presence: true
   validates :country, presence: true
   validates :user_types, presence: true
   validates :county,  presence: true, if: :ireland?

@@ -2,13 +2,17 @@ class Api::V1::PasswordsController < ApplicationController
 before_action :authenticate
 
    def forgot
-      @user = User.find_by(email: params[:email])
-       if @user.present?
+    @user = User.find_by(email: params[:email])
+     if @user.present?
+       if @user.email_confirmed?
          UserMailer.forgot(@user).deliver_now
           render json: {messages: "To reset your password click the URL "}, status: :ok
        else
-          render json: {error_message: "Email is not found"}, status: :not_found
+          render json: {error_message: "Your email is not confirmed"}
        end
+      else
+          render json: {error_message: "Email is not found"}, status: :not_found
+      end
     end
 
     def reset

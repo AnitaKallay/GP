@@ -10,7 +10,24 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_02_04_091542) do
+ActiveRecord::Schema.define(version: 2021_02_19_153704) do
+
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
+  create_table "consultations", force: :cascade do |t|
+    t.string "disclaimer"
+    t.string "title"
+    t.string "history"
+    t.string "exam"
+    t.string "impression"
+    t.string "plan"
+    t.string "additional_info"
+    t.string "broshure"
+    t.integer "user_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
 
   create_table "tokens", force: :cascade do |t|
     t.string "auth_token"
@@ -25,7 +42,7 @@ ActiveRecord::Schema.define(version: 2021_02_04_091542) do
     t.string "email"
     t.string "role"
     t.string "avatar"
-    t.string "IMC"
+    t.string "imc"
     t.string "password_digest"
     t.string "gp_type"
     t.string "practice_name"
