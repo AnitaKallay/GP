@@ -1,5 +1,6 @@
 class ApplicationController < ActionController::Base
 include Pundit
+include Pagy::Backend
 skip_before_action :verify_authenticity_token
 rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
 

@@ -9,7 +9,7 @@ include UserConcern
   has_secure_token :reset_password_token
   has_secure_token :confirm_token
   has_many :tokens
-  has_many :consultation
+  has_many :consultations
   mount_uploader :avatar, AvatarUploader
 
   validates :role, presence: true

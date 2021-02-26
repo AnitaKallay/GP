@@ -8,16 +8,11 @@ class UsersService
   end
 
   def filter_proces
-    if @user_types.present?
-      find_by_user_types
+    if @user_types.present? find_by_user_types
     end
-
-    if @county.present?
-      find_by_county
+    if @county.present? find_by_county
     end
-
-    if @search.present?
-      find_by_qyery_search
+    if @search.present? find_by_qyery_search
     end
      @users
   end

@@ -3,14 +3,14 @@ before_action :authenticate
 before_action :set_consultation, except: [:create, :index]
 
   def index
-    consultations = Consultation.all
-    render json: {consultations: consultations.map{|consultation| ConsultationSerializer.new(consultation)}}
+    @consultations = ConsultationService.new(params).filter_proces
+    render json: {consultations: @consultations}
   end
 
   def create
    @consultation = Consultation.new(cons_params)
      if @consultation.save
-       render json: {consultation: @consultation}
+       render json: {consultation: ConsultationSerializer.new(@consultation)}
      else
        render json: {errors: @consultation.errors.full_messages}
      end
@@ -19,7 +19,7 @@ before_action :set_consultation, except: [:create, :index]
   def update
    authorize @consultation
      if @consultation.update(cons_update_params)
-        render json: { consultation: ConsultationSerializer.new(@consultation) }
+        render json: {consultation: ConsultationSerializer.new(@consultation)}
      else
         render json: {error_message: @consultation.errors.full_messages}
      end

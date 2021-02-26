@@ -6,7 +6,7 @@ Rails.application.routes.draw do
   resources :users
   get 'login'   => 'users#login'
   get 'logout' => 'users#logout'
-  post 'forgot' => 'passwords#forgot'
+  post 'passwords/forgot', to: 'passwords#forgot'
   post 'passwords/reset', to: 'passwords#reset'
   resources :consultation
   end

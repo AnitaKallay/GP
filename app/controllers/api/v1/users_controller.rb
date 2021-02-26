@@ -2,14 +2,14 @@ class Api::V1::UsersController < ApplicationController
 before_action :authenticate, except: [:create, :confirm, :update]
 
   def index
-   users = User.all
-     render json: {users: users.map{|user| UserListSerializer.new(user)}}
+   @pagy,users = pagy(User.all)
+     render json: {users: users.map{|user| UserListSerializer.new(user)},total_page: @pagy.page}
   end
 
   def create
    @user = User.new(user_params)
      if @user.save
-       render json: {user: @user, message: "Please confirm your email address to continue"}
+       render json:{message: "Please confirm your email", user: UserSerializer.new(@user)}
      else
        render json: {errors: @user.errors.full_messages}
      end
@@ -30,7 +30,7 @@ before_action :authenticate, except: [:create, :confirm, :update]
      if @user.authenticate(params[:password])
        if @user.email_confirmed
           @token = Token.create(user_id: @user.id)
-          render json: {token: @token, messages: "Successfully", user: @user}
+          render json: {token: @token, messages: "Successfully", user: UserSerializer.new(@user)}
         else
           render json: {messages: "Your email is not confirmed"}
         end
@@ -48,9 +48,9 @@ before_action :authenticate, except: [:create, :confirm, :update]
    end
 
    def update
-     user = User.find_by(id: params[:id])
-      if user.update(user_params)
-         render json: { user: UserSerializer.new(user) }
+     @user = User.find_by(id: params[:id])
+      if @user.update(user_params)
+         render json: {user: UserSerializer.new(@user)}
       else
          render json: {error_message: user.errors.full_messages}
       end
