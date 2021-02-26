@@ -3,8 +3,8 @@ before_action :authenticate
 before_action :set_consultation, except: [:create, :index]
 
   def index
-    @consultations = ConsultationService.new(params).filter_proces
-    render json: {consultations: @consultations}
+   @pagy, @consultations = pagy(ConsultationService.new(params).filter_proces)
+    render json: {consultations: @consultations.map{|item| ConsultationSerializer.new(item)},total_page: @pagy.page}
   end
 
   def create

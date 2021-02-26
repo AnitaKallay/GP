@@ -5,8 +5,7 @@ class ConsultationService
   end
 
   def filter_proces
-    if @search.present?;find_by_search
-    end
+    find_by_search if @search.present?
      @consultations
   end
 

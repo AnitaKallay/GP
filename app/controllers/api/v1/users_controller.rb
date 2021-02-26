@@ -2,7 +2,7 @@ class Api::V1::UsersController < ApplicationController
 before_action :authenticate, except: [:create, :confirm, :update]
 
   def index
-   @pagy,users = pagy(User.all)
+   @pagy, users = pagy(UsersService.new(params).filter_proces)
      render json: {users: users.map{|user| UserListSerializer.new(user)},total_page: @pagy.page}
   end
 

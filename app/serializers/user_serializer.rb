@@ -9,6 +9,7 @@ class UserSerializer < ActiveModel::Serializer
              :practice_name,
              :county,
              :country,
+             :auth_token
              :user_types
 
   def full_name
