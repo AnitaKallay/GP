@@ -1,5 +1,6 @@
 class Consultation < ApplicationRecord
   belongs_to :user
+  has_many :comments
 
   validates :disclaimer, presence: true
   validates :title, presence: true

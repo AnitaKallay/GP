@@ -9,6 +9,7 @@ Rails.application.routes.draw do
   post 'passwords/forgot', to: 'passwords#forgot'
   post 'passwords/reset', to: 'passwords#reset'
   resources :consultation
+  resources :comments
   end
  end
 end

@@ -10,6 +10,7 @@ include UserConcern
   has_secure_token :confirm_token
   has_many :tokens
   has_many :consultations
+  has_many :comments
   mount_uploader :avatar, AvatarUploader
 
   validates :role, presence: true
