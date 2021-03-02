@@ -3,8 +3,8 @@ before_action :authenticate
 before_action :find_consultation, only: [:create]
 before_action :find_comment, only: [:update, :destroy]
   def index
-    @comments = Comment.order('created_at ASC')
-      render json: { comments: @comments.map{|item| CommentSerializer.new(item)} }
+    @pagy, @comments = pagy(Comment.all)
+      render json: { comments: @comments.map{|item| CommentSerializer.new(item)},total_page: @pagy.page}
   end
 
   def create
