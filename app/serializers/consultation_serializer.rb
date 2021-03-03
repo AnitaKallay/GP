@@ -12,21 +12,26 @@ class ConsultationSerializer < ActiveModel::Serializer
              :created_at,
              :updated_at,
              :owner,
-             :comments,
              :comments_count,
-             :is_comment
+             :is_comment,
+             :user
+
+
+
+  def initialize(object, user)
+     @current_user = user
+     super(object, user)
+  end
+
   def owner
    "#{object.user.first_name} #{object.user.last_name}"
   end
 
-  def comments
-    object.comments
-  end
   def comments_count
-    object.comments.length
+    object.comments.count
   end
   def is_comment
-    object.comments.present?
+    object.comments.find_by(user: @current_user.id).present?
   end
 
 end

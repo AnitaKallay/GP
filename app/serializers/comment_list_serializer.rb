@@ -1,4 +1,4 @@
-class CommentLastSerializer < ConsultationSerializer
+class CommentListSerializer < ConsultationSerializer
   attributes :id, :last_comment
 
   def last_comment
