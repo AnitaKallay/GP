@@ -31,7 +31,7 @@ class ConsultationSerializer < ActiveModel::Serializer
     object.comments.count
   end
   def is_comment
-    object.comments.find_by(user: @current_user.id).present?
+    object.comments.where(user: @current_user).present?
   end
 
 end
