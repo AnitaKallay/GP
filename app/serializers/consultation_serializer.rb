@@ -27,11 +27,8 @@ class ConsultationSerializer < ActiveModel::Serializer
    "#{object.user.first_name} #{object.user.last_name}"
   end
 
-  def comments_count
-    object.comments.count
-  end
   def is_comment
-    object.comments.where(user: @current_user).present?
+    object.comments.where(user_id: @current_user.id).present?
   end
 
 end
