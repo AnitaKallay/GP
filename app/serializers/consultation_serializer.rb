@@ -14,7 +14,8 @@ class ConsultationSerializer < ActiveModel::Serializer
              :owner,
              :comments_count,
              :is_comment,
-             :user
+             :user,
+             :likes_count
 
 
 
