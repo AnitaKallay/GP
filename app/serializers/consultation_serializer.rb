@@ -11,8 +11,27 @@ class ConsultationSerializer < ActiveModel::Serializer
              :broshure,
              :created_at,
              :updated_at,
-             :owner
+             :owner,
+             :comments_count,
+             :is_comment,
+             :user,
+             :likes_count,
+             :is_liked
+
+  def initialize(object, user)
+     @current_user = user
+     super(object, user)
+  end
+
   def owner
    "#{object.user.first_name} #{object.user.last_name}"
+  end
+
+  def is_comment
+    object.comments.where(user_id: @current_user.id).present?
+  end
+
+  def is_liked
+    object.likes.where(user_id: @current_user.id).present?
   end
 end
