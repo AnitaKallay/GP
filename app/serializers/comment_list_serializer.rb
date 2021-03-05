@@ -1,7 +1,8 @@
-class CommentListSerializer < ConsultationSerializer
-  attributes :id, :last_comment
+class CommentListSerializer < CommentSerializer
+  attributes :id, :last_replies
 
-  def last_comment
-    object.comments.order('created_at ASC').last(3)
+  def last_replies
+    object.replies.order('created_at ASC')
   end
 end
+  

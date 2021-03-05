@@ -1,9 +1,9 @@
-class CommentPolicy < ApplicationPolicy
+class ReplyPolicy < ApplicationPolicy
 
   def update?
     user == record.user || @user.admin? || @user.moderator?
   end
-
+  
   def destroy?
     user == record.user || @user.admin? || @user.moderator?
   end
