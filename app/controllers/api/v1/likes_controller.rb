@@ -1,52 +1,45 @@
 class Api::V1::LikesController < ApplicationController
 before_action :authenticate
-before_action :find_comment, only: [:create_comment_likes, :destroy_comment_likes]
-before_action :find_consultation, only: [:create_consultation_likes, :destroy_consultation_likes]
+before_action :find_comment, only: [:comment_likes]
+before_action :find_consultation, only: [:consultation_likes]
 
-  def create_comment_likes
-   @like = Like.new(user_id: @current_user.id, likable: @comment)
-    if @like.save
-      render json: {count: @comment.likes.count}
-    else
-      render json: {error_message: @like.errors.full_messages}
-    end
-  end
-
-   def destroy_comment_likes
-    @like = Like.find_by(user_id: @current_user.id, likable: @comment)
-     if @like.present?
-       @like.destroy
-        render json: {count: @comment.likes.count}
-     else
-        render json: {error_message: @like.errors.full_messages}
-     end
+   def comment_likes
+      @like = Like.find_by(user_id: @current_user.id, likable: @comment)
+       if @like.present?
+          @like.destroy
+           render json:{ count: @comment.likes.count, message: "Dislike"}
+       else
+          @like = Like.new(user_id: @current_user.id, likable: @comment)
+         if @like.save
+           render json:{ count: @comment.likes.count, message: "Is liked"}
+         else
+           render json:{ errors: @like.errors.messages }
+         end
+       end
    end
 
-   def create_consultation_likes
-    @like = Like.new(user_id: @current_user.id, likable: @consultation)
-     if @like.save
-       render json: {count: @consultation.likes.count}
-     else
-       render json: {error_message: @like.errors.full_messages}
-     end
-   end
-
-    def destroy_consultation_likes
+   def consultation_likes
      @like = Like.find_by(user_id: @current_user.id, likable: @consultation)
       if @like.present?
-        @like.destroy
-         render json: {count: @consultation.likes.count}
+         @like.destroy
+          render json:{ count: @consultation.likes.count, message: "Dislike"}
       else
-         render json: {error_message: @like.errors.full_messages}
+         @like = Like.new(user_id: @current_user.id, likable: @consultation)
+        if @like.save
+          render json:{ count: @consultation.likes.count, message: "Is liked"}
+        else
+          render json:{ errors: @like.errors.messages }
+        end
       end
-    end
+   end
+
 
 private
 
    def find_comment
     @comment = Comment.find_by(id: params[:id])
      if @comment.nil?
-      render json: {error_message: @comment.errors.full_messages}
+      render json: {error_message: "Not found"}
      end
    end
 

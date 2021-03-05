@@ -10,10 +10,9 @@ Rails.application.routes.draw do
   resources :users, only: %i[index create update destroy]
   resources :consultation, only: %i[index create show update destroy]
   resources :comments, only: %i[index create update destroy]
-  post 'create_comment_likes', to: 'likes#create_comment_likes'
-  delete 'destroy_comment_likes', to: 'likes#destroy_comment_likes'
-  post 'create_consultation_likes', to: 'likes#create_consultation_likes'
-  delete 'destroy_consultation_likes', to: 'likes#destroy_consultation_likes'
+  post 'comment_likes', to: 'likes#comment_likes'
+  post 'consultation_likes', to: 'likes#consultation_likes'
+
 
 
 

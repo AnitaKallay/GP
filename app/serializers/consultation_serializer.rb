@@ -15,9 +15,8 @@ class ConsultationSerializer < ActiveModel::Serializer
              :comments_count,
              :is_comment,
              :user,
-             :likes_count
-
-
+             :likes_count,
+             :is_liked
 
   def initialize(object, user)
      @current_user = user
@@ -32,4 +31,7 @@ class ConsultationSerializer < ActiveModel::Serializer
     object.comments.where(user_id: @current_user.id).present?
   end
 
+  def is_liked
+    object.likes.where(user_id: @current_user.id).present?
+  end
 end

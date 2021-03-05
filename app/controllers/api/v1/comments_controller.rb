@@ -4,13 +4,13 @@ before_action :find_consultation, only: [:create]
 before_action :find_comment, only: [:update, :destroy]
   def index
     @pagy, @comments = pagy(Comment.all)
-      render json: { comments: @comments.map{|item| CommentSerializer.new(item)},total_page: @pagy.page}
+      render json: { comments: @comments.map{|item| CommentSerializer.new(item, @current_user)},total_page: @pagy.page}
   end
 
   def create
     @comment = Comment.new(comment_params)
     if @comment.save
-      render json: {comment: CommentSerializer.new(@comment)}
+      render json: {comment: CommentSerializer.new(@comment, @current_user)}
     else
       render json: {error_message: @comment.errors.full_messages}
     end
@@ -26,7 +26,7 @@ before_action :find_comment, only: [:update, :destroy]
   def update
     authorize @comment
      if @comment.update(comment_update_params)
-       render json: {comment: CommentSerializer.new(@comment)}
+       render json: {comment: CommentSerializer.new(@comment, @current_user)}
      else
        render json: {message: "Comment is not updeted"}
      end
