@@ -10,9 +10,11 @@ Rails.application.routes.draw do
   resources :users, only: %i[index create update destroy]
   resources :consultation, only: %i[index create show update destroy]
   resources :comments, only: %i[index create update destroy]
+  resources :replies, only: %i[index create destroy update]
+
   post 'comment_likes', to: 'likes#comment_likes'
   post 'consultation_likes', to: 'likes#consultation_likes'
-
+  post 'reply_likes', to: 'likes#reply_likes'
 
 
 

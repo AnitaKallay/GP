@@ -5,7 +5,8 @@ class CommentSerializer < ActiveModel::Serializer
              :user_id,
              :owner,
              :likes_count,
-             :is_liked
+             :is_liked,
+             :is_replied
 
   def initialize(object, user)
     @current_user = user
@@ -18,5 +19,9 @@ class CommentSerializer < ActiveModel::Serializer
 
   def is_liked
     object.likes.where(user_id: @current_user.id).present?
+  end
+
+  def is_replied
+    object.replies.where(user_id: @current_user.id).present?
   end
 end

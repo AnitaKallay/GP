@@ -4,7 +4,7 @@ before_action :set_consultation, except: [:create, :index]
 
   def index
    @pagy, @consultations = pagy(ConsultationService.new(params).filter_proces)
-    render json: {consultations: @consultations.map{|item|CommentListSerializer.new(item,@current_user)},total_page: @pagy.page}
+    render json: {consultations: @consultations.map{|item|ConsultationListSerializer.new(item,@current_user)},total_page: @pagy.page}
   end
 
   def create

@@ -4,7 +4,7 @@ before_action :find_consultation, only: [:create]
 before_action :find_comment, only: [:update, :destroy]
   def index
     @pagy, @comments = pagy(Comment.all)
-      render json: { comments: @comments.map{|item| CommentSerializer.new(item, @current_user)},total_page: @pagy.page}
+      render json: { comments: @comments.map{|item| CommentListSerializer.new(item, @current_user)},total_page: @pagy.page}
   end
 
   def create
